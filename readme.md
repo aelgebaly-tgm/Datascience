@@ -14,6 +14,8 @@ Nutze dafür einen [Datensatz zur Mustererkennung von handgeschriebenen Mathemat
 
 Es wird mit Python umgesetzt
 
+Alle Nodes verwenden RLU außer natürlich der Output Node, dieser funktioniert mit einer Sigmoidfunktion
+
 ### Daten/Bilder einlesen
 
 Zuerst wird mithilfe des glob packages in python alle Bilder eingelesen
@@ -42,5 +44,28 @@ def imageToArray(path):
     img_np = img_np.reshape(45, 45)
     img_np /= 255.0
     return img_np
+```
+
+Wir fügen beide Arrays zu einem großen "letterArray" zusammen
+
+Wir geben die Shape aus, um zu verfizieren, dass wir alles richtig gemacht haben
+
+```
+letterArray = np.concatenate((fArray, lArray))
+print(letterArray.shape)
+```
+
+```
+(60, 45, 45)
+```
+
+Es gibt 60 2D Arrays; wir haben 30 von jedem der beiden Buchstaben, und all diese 2D Arrays sind 45x45 groß, also ist es richtig.
+
+Wir definieren ein labelArray; die ersten 30 Werte sind Nullen und die letzten 30 Einsen. Das sind die Labels für die Buchstaben in unserem Array (0 ist der erste Buchstabe, 1 der zweite; wir haben sie ja nacheinander in letterArray gegeben, also passt das)
+
+```
+labelArray = np.append(np.zeros((1, 30))[0], np.ones((1, 30))[0])
+
+letterArray_shuffled, labelArray_shuffled = unison_shuffled_copies(letterArray, labelArray)
 ```
 
