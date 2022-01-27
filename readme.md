@@ -16,7 +16,7 @@ Es wird mit Python umgesetzt
 
 Alle Nodes verwenden RLU außer natürlich der Output Node, dieser funktioniert mit einer Sigmoidfunktion
 
-### Daten/Bilder einlesen
+### Daten/Bilder einlesen, Datensätze definieren
 
 Zuerst wird mithilfe des glob packages in python alle Bilder eingelesen
 
@@ -64,8 +64,33 @@ Es gibt 60 2D Arrays; wir haben 30 von jedem der beiden Buchstaben, und all dies
 Wir definieren ein labelArray; die ersten 30 Werte sind Nullen und die letzten 30 Einsen. Das sind die Labels für die Buchstaben in unserem Array (0 ist der erste Buchstabe, 1 der zweite; wir haben sie ja nacheinander in letterArray gegeben, also passt das)
 
 ```
-labelArray = np.append(np.zeros((1, 30))[0], np.ones((1, 30))[0])
+labelArray = np.append(np.zeros((30, 1)), np.ones((30, 1)))
+```
 
+Für Punkt 2 der Aufgabe mischen wir die Arrays, das es beim Lernen eine zufällige Reihenfolge hat
+
+```
 letterArray_shuffled, labelArray_shuffled = unison_shuffled_copies(letterArray, labelArray)
 ```
 
+### Testen dieser Funktionen
+
+```
+print(labelArray_shuffled[0])
+plt.imshow(letterArray_shuffled[0], interpolation='nearest')
+plt.show()
+
+print(labelArray_shuffled[3])
+plt.imshow(letterArray_shuffled[3], interpolation='nearest')
+plt.show()
+
+print(labelArray_shuffled[20])
+plt.imshow(letterArray_shuffled[20], interpolation='nearest')
+plt.show()
+```
+
+Zum Testen unseres Programmes geben wir zufällig die Labels dreier Elemente aus und das "Bild" (das Array wird wieder als Bild dargestellt) dazu (derweil muss es richtig sein, weil wir die Labels selbst gesetzt haben)
+
+![image-20220127134606250](readme.assets/image-20220127134606250.png)
+
+![image-20220127134612840](readme.assets/image-20220127134612840.png)
