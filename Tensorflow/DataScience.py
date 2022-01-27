@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
 from keras.preprocessing.image import array_to_img
-from sklearn.utils import shuffle
 import numpy as np
 import glob
 
@@ -20,7 +19,6 @@ def unison_shuffled_copies(a, b):
 
 def imageToArray(path):
     img = load_img(path, color_mode="grayscale")
-    print(img)
     img_array = img_to_array(img)
     img_np = np.array([img_array])
     img_np = img_np.reshape(45, 45)
