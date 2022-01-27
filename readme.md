@@ -14,7 +14,7 @@ Nutze dafür einen [Datensatz zur Mustererkennung von handgeschriebenen Mathemat
 
 Es wird mit Python umgesetzt
 
-Alle Nodes verwenden Relu außer natürlich der Output Node, dieser funktioniert mit einer Sigmoidfunktion
+
 
 ### Daten/Bilder einlesen, Datensätze definieren
 
@@ -221,3 +221,52 @@ print(model_4.evaluate(letterTest, labelTest))
 ```
 
 Wir haben nur 20 Bilder
+
+
+
+
+
+Die Ergebnisse waren anfangs ziemlich schlecht; wir spielten uns noch mit den Funktionen; Softmax gibt generell bessere Ergebnisse als Relu und Sigmoid hat man immer als Output
+
+Mit normalen Symbolen
+
+```
+MODEL 1 EVALUATION, first F then L
+1/1 [==============================] - 0s 107ms/step - loss: 1.0804
+1.080363392829895
+MODEL 2 EVALUATION, 2 softmax Layers
+1/1 [==============================] - 0s 12ms/step - loss: 0.7733
+0.7733123898506165
+MODEL 3 EVALUATION, 5 softmax Layers
+1/1 [==============================] - 0s 16ms/step - loss: 0.7415
+0.7415116429328918
+MODEL 4 EVALUATION, 1 relu layer
+1/1 [==============================] - 0s 16ms/step - loss: 0.8477
+0.8477466702461243
+MODEL 5 EVALUATION, 1 softmax Layer
+1/1 [==============================] - 0s 18ms/step - loss: 0.7527
+0.752707302570343
+```
+
+Mit auch ausgefallenen
+
+```
+MODEL 1 EVALUATION, first F then L
+1/1 [==============================] - 0s 149ms/step - loss: 1.1334
+1.1333985328674316
+MODEL 2 EVALUATION, 2 softmax Layers
+1/1 [==============================] - 0s 17ms/step - loss: 0.7372
+0.737174391746521
+MODEL 3 EVALUATION, 5 softmax Layers
+1/1 [==============================] - 0s 18ms/step - loss: 0.6345
+0.6345106363296509
+MODEL 4 EVALUATION, 1 relu layer
+1/1 [==============================] - 0s 17ms/step - loss: 0.7784
+0.7784115672111511
+MODEL 5 EVALUATION, 1 softmax Layer
+1/1 [==============================] - 0s 18ms/step - loss: 0.6690
+0.66897052526474
+```
+
+Das Modell ist sogar besser ausgefallen? Irgendwas stimmt nicht :thinking:
+
