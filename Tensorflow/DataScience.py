@@ -71,7 +71,7 @@ model_1 = keras.Sequential()
 model_1.add(keras.layers.Dense(8, activation='relu', input_shape=(45,45,)))
 model_1.add(keras.layers.Dense(8, activation='relu'))
 model_1.add(keras.layers.Dense(1, activation='sigmoid'))
-model_1.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss='binary_crossentropy', metrics=['accuracy'])
+model_1.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss='binary_crossentropy')
 model_1.fit(fTraining, np.zeros((20,1)), epochs=1000, validation_split=0.5)
 model_1.fit(lTraining, np.ones((20,1)), epochs=1000, validation_split=0.5)
 ################Model 1################  
@@ -82,7 +82,7 @@ model_2 = keras.Sequential()
 model_2.add(keras.layers.Dense(8, activation='relu', input_shape=(45,45,)))
 model_2.add(keras.layers.Dense(8, activation='relu'))
 model_2.add(keras.layers.Dense(1, activation='sigmoid'))
-model_2.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss='binary_crossentropy', metrics=['accuracy'])
+model_2.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss='binary_crossentropy')
 model_2.fit(letterTraining_shuffled, labelTraining_shuffled, epochs=2000, validation_split=0.5)
 ################Model 2################ 
 
@@ -95,7 +95,7 @@ model_3.add(keras.layers.Dense(4, activation='relu'))
 model_3.add(keras.layers.Dense(4, activation='relu'))
 model_3.add(keras.layers.Dense(4, activation='relu'))
 model_3.add(keras.layers.Dense(1, activation='sigmoid'))
-model_3.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss='binary_crossentropy', metrics=['accuracy'])
+model_3.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss='binary_crossentropy')
 model_3.fit(letterTraining_shuffled, labelTraining_shuffled, epochs=2000, validation_split=0.5)
 ################Model 3################  
 
@@ -104,7 +104,7 @@ model_3.fit(letterTraining_shuffled, labelTraining_shuffled, epochs=2000, valida
 model_4 = keras.Sequential()
 model_4.add(keras.layers.Dense(16, activation='relu', input_shape=(45,45,)))
 model_4.add(keras.layers.Dense(1, activation='sigmoid'))
-model_4.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss='binary_crossentropy', metrics=['accuracy'])
+model_4.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss='binary_crossentropy')
 model_4.fit(letterTraining_shuffled, labelTraining_shuffled, epochs=2000, validation_split=0.5)
 ################Model 4################  
 
