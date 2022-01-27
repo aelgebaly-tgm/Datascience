@@ -33,8 +33,7 @@ fArray = np.array([imageToArray(fname) for fname in ffilelist])
 lArray = np.array([imageToArray(fname) for fname in lfilelist])
 letterArray = np.concatenate((fArray, lArray))
 print(letterArray.shape)
-labelArray = np.append(np.zeros((1, 30))[0], np.ones((1, 30))[0])
-
+labelArray = np.append(np.zeros((30, 1)), np.ones((30, 1)))
 letterArray_shuffled, labelArray_shuffled = unison_shuffled_copies(letterArray, labelArray)
 
 
