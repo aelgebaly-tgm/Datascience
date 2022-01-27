@@ -68,8 +68,8 @@ letterTraining_shuffled, labelTraining_shuffled = unison_shuffled_copies(letterT
 
 ################Model 1################  
 model_1 = keras.Sequential()
-model_1.add(keras.layers.Dense(8, activation='relu', input_shape=(45,45,)))
-model_1.add(keras.layers.Dense(8, activation='relu'))
+model_1.add(keras.layers.Dense(8, activation='softmax', input_shape=(45,45,)))
+model_1.add(keras.layers.Dense(8, activation='softmax'))
 model_1.add(keras.layers.Dense(1, activation='sigmoid'))
 model_1.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss='binary_crossentropy')
 model_1.fit(fTraining, np.zeros((20,1)), epochs=1000, validation_split=0.5)
@@ -79,8 +79,8 @@ model_1.fit(lTraining, np.ones((20,1)), epochs=1000, validation_split=0.5)
 
 ################Model 2################  
 model_2 = keras.Sequential()
-model_2.add(keras.layers.Dense(8, activation='relu', input_shape=(45,45,)))
-model_2.add(keras.layers.Dense(8, activation='relu'))
+model_2.add(keras.layers.Dense(8, activation='softmax', input_shape=(45,45,)))
+model_2.add(keras.layers.Dense(8, activation='softmax'))
 model_2.add(keras.layers.Dense(1, activation='sigmoid'))
 model_2.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss='binary_crossentropy')
 model_2.fit(letterTraining_shuffled, labelTraining_shuffled, epochs=2000, validation_split=0.5)
@@ -89,11 +89,11 @@ model_2.fit(letterTraining_shuffled, labelTraining_shuffled, epochs=2000, valida
  
 ################Model 3################  
 model_3 = keras.Sequential()
-model_3.add(keras.layers.Dense(4, activation='relu', input_shape=(45,45,)))
-model_3.add(keras.layers.Dense(4, activation='relu'))
-model_3.add(keras.layers.Dense(4, activation='relu'))
-model_3.add(keras.layers.Dense(4, activation='relu'))
-model_3.add(keras.layers.Dense(4, activation='relu'))
+model_3.add(keras.layers.Dense(4, activation='softmax', input_shape=(45,45,)))
+model_3.add(keras.layers.Dense(4, activation='softmax'))
+model_3.add(keras.layers.Dense(4, activation='softmax'))
+model_3.add(keras.layers.Dense(4, activation='softmax'))
+model_3.add(keras.layers.Dense(4, activation='softmax'))
 model_3.add(keras.layers.Dense(1, activation='sigmoid'))
 model_3.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss='binary_crossentropy')
 model_3.fit(letterTraining_shuffled, labelTraining_shuffled, epochs=2000, validation_split=0.5)
@@ -108,16 +108,26 @@ model_4.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss='binary_crossent
 model_4.fit(letterTraining_shuffled, labelTraining_shuffled, epochs=2000, validation_split=0.5)
 ################Model 4################  
 
+################Model 5################  
+model_5 = keras.Sequential()
+model_5.add(keras.layers.Dense(16, activation='softmax', input_shape=(45,45,)))
+model_5.add(keras.layers.Dense(1, activation='sigmoid'))
+model_5.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss='binary_crossentropy')
+model_5.fit(letterTraining_shuffled, labelTraining_shuffled, epochs=2000, validation_split=0.5)
+################Model 4################  
 
 
-print("MODEL 1 EVALUATION")
+
+print("MODEL 1 EVALUATION, first F then L")
 print(model_1.evaluate(letterTest, labelTest))
-print("MODEL 2 EVALUATION")
+print("MODEL 2 EVALUATION, 2 softmax Layers")
 print(model_2.evaluate(letterTest, labelTest))
-print("MODEL 3 EVALUATION")
+print("MODEL 3 EVALUATION, 5 softmax Layers")
 print(model_3.evaluate(letterTest, labelTest))
-print("MODEL 4 EVALUATION")
+print("MODEL 4 EVALUATION, 1 relu layer")
 print(model_4.evaluate(letterTest, labelTest))
+print("MODEL 5 EVALUATION, 1 softmax Layer")
+print(model_5.evaluate(letterTest, labelTest))
 
 
 
