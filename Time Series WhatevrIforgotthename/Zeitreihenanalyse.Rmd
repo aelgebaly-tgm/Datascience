@@ -1,0 +1,132 @@
+---
+title: "Zeitreihenanalyse"
+author: "Elgebaly"
+date: "10 3 2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Aufgabe 1 (GK) - Zeitreihenanalyse
+
+```{r}
+library("dplyr")
+```
+
+Lade den Datensatz zu den 500 wichtigsten börsennotierten Unternehmen der US ( S&P 500 ) herunter. Speichere die Informationen zur Firma "IBM" in eine Variable und arbeite ab nun mit diesen Zeitreihen.
+
+    Stelle den Verlauf des Eröffnungskurses (open), höchsten Tageskurses (high), niedrigsten Tageskurses (low) und Börsenschlusskurses (close) graphisch dar. Beschreibe, was dabei auffällt und wie diese Zeitreihen zusammenhängen.
+   
+
+```{r read csv }
+stock = read.csv("C:\\Users\\-_-\\Downloads\\archive\\all_stocks_5yr.csv")
+
+ibmstocks = stock %>% filter(Name=="IBM")
+
+
+
+```
+
+```{r}
+tsstockOpen = ts(ibmstocks$open,frequency = 260,start= c(2013,2,8))
+tsstockClose = ts(ibmstocks$close,frequency = 260,start= c(2013,2,8))
+tsstockHigh = ts(ibmstocks$high,frequency = 260,start= c(2013,2,8))
+tsstockLow = ts(ibmstocks$low,frequency = 260,start= c(2013,2,8))
+```
+
+```{r}
+plot(ibmstocks)
+ts.plot(tsstockOpen)
+lines(tsstockClose,col=2)
+lines(tsstockHigh,col=3)
+lines(tsstockLow,col=4)
+legend("bottomleft",legend=c("Open","Close","High","Low"),col=1:4,lwd=5)
+```
+
+ Modelliere den Rolling Mean = Moving Average jeder dieser 4 Zeitreihen und stelle diese graphisch jeweils in Kombination mit der ursprünglichen Zeitreihe dar.
+```{r}
+tsstockOpenMa = arima(tsstockOpen, order = c(0, 0, 7))
+ts.plot(tsstockOpen)
+tsstockOpenMA_fit <- tsstockOpen - resid(tsstockOpenMa)
+points(tsstockOpenMA_fit, type = "l", col = 2, lty = 2)
+
+tsstockCloseMa = arima(tsstockClose, order = c(0, 0, 1))
+ts.plot(tsstockClose)
+tsstockCloseMA_fit <- tsstockClose - resid(tsstockCloseMa)
+points(tsstockCloseMA_fit, type = "l", col = 2, lty = 2)
+
+tsstockHighMa = arima(tsstockHigh, order = c(0, 0, 1))
+ts.plot(tsstockHigh)
+tsstockHighMA_fit <- tsstockHigh - resid(tsstockHighMa)
+points(tsstockHighMA_fit, type = "l", col = 2, lty = 2)
+
+tsstockLowMa = arima(tsstockLow, order = c(0, 0, 1))
+ts.plot(tsstockLow)
+tsstockLowMA_fit <- tsstockLow - resid(tsstockLowMa)
+points(tsstockLowMA_fit, type = "l", col = 2, lty = 2)
+
+```
+ 
+ 
+    Stelle die Autokorrelation und partielle Autokorrelation der 4 Zeitreihen graphisch dar. Beschreibe, was dabei auffällt und wie diese Darstellungen und ihre Zeitreihen zusammenhängen.
+    
+```{r}
+acf(tsstockOpen)
+pacf(tsstockOpen)
+
+acf(tsstockClose)
+pacf(tsstockClose)
+
+acf(tsstockLow)
+pacf(tsstockLow)
+
+acf(tsstockHigh)
+pacf(tsstockHigh)
+```
+
+    
+    Passe für eine dieser Zeitreihen ein autoregressives Modell an, wobei du dafür die in den Autokorrelationsplots erkennbare Ordnung wählst. Interpretiere dieses Modell.
+    
+Antwort:  Da die Autoregression ein Random walk darstellt, vertieft das den beweis, dass das Modell tatsächlich ein Random walk ist. (wäre der Intercept nicht beinahe 1, sondern zb 2, würde es bedeuten, dass sich die Zahl immer verdoppelt, und nicht + ein Zufälliger wert ist.)
+```{r}
+tsstockOpen_AM <- arima(tsstockOpen , order = c(1, 0, 0))
+tsstockOpen_AM
+
+ts.plot(tsstockOpen)
+AR_fitted <- tsstockOpen - residuals(tsstockOpen_AM)
+points(AR_fitted, type = "l", col = 2, lty = 2)
+```
+    
+    Sage anhand des Modells den Börsenkurs in den ersten 5 Tagen nach Ende der Zeitreihe vorher.
+```{r}
+
+predictOpen = predict(tsstockOpen_AM, n.ahead = 5)$pred
+ts.plot(tsstockOpen,xlim = c(2017, 2018))
+points(predictOpen, type = "l", col = 2)
+```
+
+    Passe für eine dieser Zeitreihen ein ARIMA-Modell an, wobei du dafür unterschiedliche Parameterkombinationen testest. (EK)
+    
+```{r}
+tsstockOpen_ARIMA_A <- arima(tsstockOpen , order = c(1, 0, 0))
+tsstockOpen_ARIMA_B <- arima(tsstockOpen , order = c(1, 1, 0))
+tsstockOpen_ARIMA_C <- arima(tsstockOpen , order = c(1, 0, 1))
+tsstockOpen_ARIMA_D <- arima(tsstockOpen , order = c(0, 0, 1))
+
+ts.plot(tsstockOpen)
+fitted_AR_A <- tsstockOpen - residuals(tsstockOpen_ARIMA_A)
+fitted_AR_B <- tsstockOpen - residuals(tsstockOpen_ARIMA_B)
+fitted_AR_C <- tsstockOpen - residuals(tsstockOpen_ARIMA_C)
+fitted_AR_D <- tsstockOpen - residuals(tsstockOpen_ARIMA_D)
+points(fitted_AR_A, type = "l", col = 3, lty = 2)
+points(fitted_AR_B, type = "l", col = 4, lty = 2)
+points(fitted_AR_C, type = "l", col = 5, lty = 2)
+points(fitted_AR_D, type = "l", col = 6, lty = 2)
+legend("bottomleft",legend=c("1,0,0","1,1,0","1,0,1","0,0,1"),col=1:4,lwd=5)
+```
+    
+    
+    Führe einen Modellvergleich der unterschiedlichen Modelle durch und interpretiere die Modelle. (EK)
+    Sage mit allen angepassten Modellen den Börsenkurs am 5. Tag nach Ende der Zeitreihe vorher und vergleiche die Prädiktionen. (EK

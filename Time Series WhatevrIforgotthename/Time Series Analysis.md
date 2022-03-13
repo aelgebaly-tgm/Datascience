@@ -129,3 +129,42 @@ Dabei ist der decay der Correlation abhängig von $$\phi$$
 | $$\phi$$ = 0.2  | $$\phi$$ = -0.9 |
 
 ![image-20220222093435441](Time Series Analysis.assets/image-20220222093435441.png)
+
+
+
+# Whitenoise, Markov Chains, und Random walks erkennen.
+
+### Weißes rauschen / White noise: 
+
+Es schwankt zwischen einem Mittelwert, ACF Lag 0 = Hoch und Lag 1 = Sehr tief
+
+![image-20220301082948383](Time Series Analysis.assets/image-20220301082948383.png)
+
+### Markovketten / Markov Chain
+
+![image-20220301083141730](Time Series Analysis.assets/image-20220301083141730.png)
+
+Nach dem ersten Schritt ist der lag immer sehr tief
+
+"Ich kann, was in einem Schritt passiert erklären mit was im vorherigen Schritt passiert"
+$$
+yt+1=\alpha+\beta*yt+\epsilon t
+$$
+
+### Random Walk
+
+Divergenz vom Mittelwert, sehr langsam fallende korrelation
+
+![image-20220301083734161](Time Series Analysis.assets/image-20220301083734161.png)
+
+#  Forecasts from an estimated AR model
+
+In R kann man eine Time series in einem Arima model fitten, und mit predict eine vorraussage (zb die nächsten 10 schritte)
+
+```R
+AR_fit <- arima(Nile, order = c(1,0,0)
+predict(AR_fit, n.ahead = 10)
+```
+
+# Moving Average
+
